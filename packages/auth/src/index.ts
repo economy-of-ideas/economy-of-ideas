@@ -1,15 +1,36 @@
-import NextAuth from "next-auth";
+import type { BetterAuthOptions } from "better-auth";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { oAuthProxy } from "better-auth/plugins";
 
-import { authConfig } from "./config";
+import { db } from "@acme/db/client";
 
-export type { Session } from "next-auth";
+export function initAuth(options: {
+  baseUrl: string;
+  secret: string | undefined;
 
-const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+  googleClientId: string;
+  googleClientSecret: string;
+}) {
+  const config = {
+    database: drizzleAdapter(db, {
+      provider: "pg",
+    }),
+    baseURL: options.baseUrl,
+    secret: options.secret,
+    plugins: [oAuthProxy()],
+    socialProviders: {
+      google: {
+        clientId: options.googleClientId,
+        clientSecret: options.googleClientSecret,
+        redirectURI: `${options.baseUrl}/api/auth/callback/google`,
+      },
+    },
+    trustedOrigins: ["expo://"],
+  } satisfies BetterAuthOptions;
 
-export { handlers, auth, signIn, signOut };
+  return betterAuth(config);
+}
 
-export {
-  invalidateSessionToken,
-  validateToken,
-  isSecureContext,
-} from "./config";
+export type Auth = ReturnType<typeof initAuth>;
+export type Session = Auth["$Infer"]["Session"];

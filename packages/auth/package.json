@@ -4,10 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": {
-      "react-server": "./src/index.rsc.ts",
-      "default": "./src/index.ts"
-    },
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
     "./env": "./env.ts"
   },
   "license": "MIT",
@@ -19,11 +17,9 @@
   },
   "dependencies": {
     "@acme/db": "workspace:*",
-    "@auth/core": "catalog:",
-    "@auth/drizzle-adapter": "catalog:",
     "@t3-oss/env-nextjs": "^0.13.0",
+    "better-auth": "^1.2.7",
     "next": "^15.2.3",
-    "next-auth": "catalog:",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
     "zod": "catalog:"
