@@ -1,3 +1,4 @@
+/** Currently not used. This is a placeholder for future use when we need to improve performance for emiting types for internal packages. */
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./base.json",

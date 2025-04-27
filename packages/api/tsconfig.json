@@ -1,5 +1,5 @@
 {
-  "extends": "@eoi/tsconfig/internal-package.json",
+  "extends": "@eoi/tsconfig/base.json",
   "include": ["src"],
   "exclude": ["node_modules"]
 }
